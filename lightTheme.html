@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="scss/style2.css" />
+    <title>Frontend Mentor | Character Counter</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="row align jbtn">
+          <a href="#" class="logo">
+            <img src="./assets/images/logo-light-theme.svg" alt="Logo" />
+          </a>
+          <div class="theme row align jcn">
+            <img
+              class="theme-toggler"
+              src="./assets/images/icon-moon.svg"
+              alt="Toggle theme"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="container">
+          <div class="row">
+            <h1 class="hero-text">
+              Analyze Your Text <br />
+              Real-Time
+            </h1>
+          </div>
+          <div class="row textarea-wrapper">
+            <textarea
+              id="text-input"
+              class="text-input"
+              placeholder="Start typing here... (or paste your text)"
+              aria-label="Text input for analysis"
+            ></textarea>
+            <span class="hint" role="alert">Hint text</span>
+          </div>
+
+          <div class="row align jbtn controllers">
+            <div class="controls row">
+              <div class="control">
+                <label class="custom-checkbox">
+                  Exclude Spaces
+                  <input type="checkbox" checked />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="control">
+                <label class="custom-checkbox">
+                  <input type="checkbox" />
+                  <span class="checkmark"></span>
+                  Set Character Limit
+                </label>
+              </div>
+            </div>
+            <div class="app-time">
+              <p>Approx. reading: <span>1 minute</span></p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <article class="result">
+              <div class="result-text">
+                <h2>278</h2>
+                <p>Total Characters <span>(no space)</span></p>
+              </div>
+              <div class="bg">
+                <img
+                  src="./assets/images/pattern-character-count.svg"
+                  alt="Character count pattern"
+                />
+              </div>
+            </article>
+            <article class="result">
+              <div class="result-text">
+                <h2>39</h2>
+                <p>Word Count</p>
+              </div>
+              <img
+                src="./assets/images/pattern-word-count.svg"
+                alt="Word count pattern"
+              />
+            </article>
+            <article class="result">
+              <div class="result-text">
+                <h2>04</h2>
+                <p>Sentence Count</p>
+              </div>
+              <img
+                src="./assets/images/pattern-sentence-count.svg"
+                alt="Sentence count pattern"
+              />
+            </article>
+          </div>
+
+          <div class="progress-container">
+            <h2 class="progress-title">Letter Density</h2>
+            <div class="progress-row">
+              <div class="progress row align">
+                <span>E</span>
+                <div class="progress-bar">
+                  <div class="progress-width" style="width: 16.06%"></div>
+                </div>
+                <div class="progress-text">40 (16.0%)</div>
+              </div>
+              <div class="progress row align">
+                <span>I</span>
+                <div class="progress-bar">
+                  <div class="progress-width" style="width: 29%"></div>
+                </div>
+                <div class="progress-text">28 (11.65%)</div>
+              </div>
+              <div class="progress row align">
+                <span>E</span>
+                <div class="progress-bar">
+                  <div class="progress-width" style="width: 11.24%"></div>
+                </div>
+                <div class="progress-text">28 (11.24%)</div>
+              </div>
+              <div class="progress row align">
+                <span>E</span>
+                <div class="progress-bar">
+                  <div class="progress-width" style="width: 8.84%"></div>
+                </div>
+                <div class="progress-text">22 (8.84%)</div>
+              </div>
+              <div class="progress row align">
+                <span>E</span>
+                <div class="progress-bar">
+                  <div class="progress-width" style="width: 8.43%"></div>
+                </div>
+                <div class="progress-text">21 (8.43%)</div>
+              </div>
+            </div>
+            <button
+              class="see-more-progress"
+              aria-label="See more letter density details"
+            >
+              See More <span>&lt;</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
