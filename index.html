@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="scss/style.css" />
     <title>Frontend Mentor | Character Counter</title>
   </head>
-  <body>
+  <body class="light-theme">
     <!-- Header -->
     <header class="header">
       <div class="container">
@@ -60,15 +60,21 @@
               <div class="control">
                 <label class="custom-checkbox">
                   Exclude Spaces
-                  <input type="checkbox" checked />
+                  <input type="checkbox" checked id="exclude-spaces" />
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <div class="control">
+              <div class="control char-limit">
                 <label class="custom-checkbox">
                   <input type="checkbox" />
                   <span class="checkmark"></span>
                   Set Character Limit
+                  <input
+                    type="number"
+                    class="limit-input"
+                    id="character-limit"
+                    placeholder="0"
+                  />
                 </label>
               </div>
             </div>
@@ -80,7 +86,7 @@
           <div class="grid">
             <article class="result">
               <div class="result-text">
-                <h2>278</h2>
+                <h2 id="character-count">278</h2>
                 <p>Total Characters <span>(no space)</span></p>
               </div>
               <div class="bg">
@@ -92,7 +98,7 @@
             </article>
             <article class="result">
               <div class="result-text">
-                <h2>39</h2>
+                <h2 id="word-count">39</h2>
                 <p>Word Count</p>
               </div>
               <img
@@ -102,7 +108,7 @@
             </article>
             <article class="result">
               <div class="result-text">
-                <h2>04</h2>
+                <h2 id="sentence-count">04</h2>
                 <p>Sentence Count</p>
               </div>
               <img
@@ -118,37 +124,12 @@
               <div class="progress row align">
                 <span>E</span>
                 <div class="progress-bar">
-                  <div class="progress-width" style="width: 16.06%"></div>
+                  <div
+                    class="progress-width"
+                    style="width: 16.06%;"
+                  ></div>
                 </div>
                 <div class="progress-text">40 (16.0%)</div>
-              </div>
-              <div class="progress row align">
-                <span>E</span>
-                <div class="progress-bar">
-                  <div class="progress-width" style="width: 11.65%"></div>
-                </div>
-                <div class="progress-text">28 (11.65%)</div>
-              </div>
-              <div class="progress row align">
-                <span>E</span>
-                <div class="progress-bar">
-                  <div class="progress-width" style="width: 11.24%"></div>
-                </div>
-                <div class="progress-text">28 (11.24%)</div>
-              </div>
-              <div class="progress row align">
-                <span>E</span>
-                <div class="progress-bar">
-                  <div class="progress-width" style="width: 8.84%"></div>
-                </div>
-                <div class="progress-text">22 (8.84%)</div>
-              </div>
-              <div class="progress row align">
-                <span>E</span>
-                <div class="progress-bar">
-                  <div class="progress-width" style="width: 8.43%"></div>
-                </div>
-                <div class="progress-text">21 (8.43%)</div>
               </div>
             </div>
             <button
@@ -161,5 +142,6 @@
         </div>
       </section>
     </main>
+    <script src="./js/main.js"></script>
   </body>
 </html>

@@ -1,19 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
+  font-family: "DM Sans", "Poppins";
 }
 
-@font-face {
-  font-family: "DMSans";
-  src: url("/starter-code/assets/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf");
-}
 body {
   background: url("../assets/images/bg-dark-theme.png") no-repeat center center/cover;
   color: #fff;
-  font-family: "DMSans", sans-serif;
+  font-family: "DM Sans", "Poppins";
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-theme {
+  background: url("../assets/images/bg-light-theme.png") no-repeat center center/cover;
+  color: #333 !important;
+}
+body.light-theme .text-input {
+  background: rgb(242, 242, 247);
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.light-theme .text-input:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px 2px #C27CF8;
+}
+body.light-theme .text-input::-moz-placeholder {
+  color: #333;
+}
+body.light-theme .text-input::placeholder {
+  color: #333;
+}
+body.light-theme .see-more-progress {
+  color: #484848;
+}
+body.light-theme .see-more-progress span {
+  color: #444;
+}
+
+body.dark-theme .text-input {
+  background: #2A2B37;
+  color: whitesmoke;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+body.dark-theme .text-input:focus {
+  outline: none;
+  border-color: #C27CF8;
+  box-shadow: 0px 0px 5px 2px #C27CF8;
+}
+
+body.light-theme .progress-bar {
+  background-color: #EFE4EF;
+}
+body.light-theme .progress-bar .progress-width {
+  background: #C27CF8;
+}
+body.light-theme .progress-bar .see-more-progress {
+  color: #333;
+}
+body.light-theme .progress-bar .see-more-progress span {
+  display: inline-block;
+  transform: rotate(-90deg);
+  color: #333;
+}
+
+body.dark-theme .progress-bar {
+  background-color: #2A2B37;
+}
+body.dark-theme .progress-bar .progress-width {
+  background: #C27CF8;
+}
+body.dark-theme .see-more-progress {
+  color: #EFE4EF;
+}
+body.dark-theme .see-more-progress span {
+  display: inline-block;
+  transform: rotate(-90deg);
+  color: #EFE4EF;
 }
 
 button, textarea {
@@ -22,11 +88,12 @@ button, textarea {
 
 .container {
   width: 999px;
+  max-width: 75%;
   margin: 0 auto;
 }
 @media (max-width: 457px) {
   .container {
-    width: 375px;
+    max-width: 87%;
     padding: 12px;
   }
 }
@@ -58,7 +125,6 @@ button, textarea {
   transition: background-color 0.3s ease;
   border-radius: 12px;
   position: relative;
-  display: flex;
   overflow: hidden;
   height: 150px;
 }
@@ -100,6 +166,7 @@ button, textarea {
 .container .grid .result:nth-child(3) {
   background: #DA3701;
 }
+
 .header {
   margin-top: 20px;
   height: 44px;
@@ -110,10 +177,40 @@ button, textarea {
   background: #2A2B37;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 .header .theme .theme-toggler {
   width: 18px;
   height: 18px;
+}
+
+.text-input {
+  width: 100%;
+  padding: 15px 25px;
+  height: 200px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: none;
+}
+.text-input::-moz-placeholder {
+  color: #EFE4EF;
+  font-size: 20px;
+}
+.text-input::placeholder {
+  color: #EFE4EF;
+  font-size: 20px;
+}
+.text-input:focus {
+  border-color: #C27CF8;
+  box-shadow: 0 0 5px rgba(194, 124, 248, 0.5);
+}
+@media (max-width: 450px) {
+  .text-input {
+    height: 180px;
+  }
 }
 
 section .hero-text {
@@ -121,7 +218,6 @@ section .hero-text {
   font-size: clamp(34px, 5vw, 60px);
   flex: 0 0 100%;
   text-align: center;
-  color: #f2f2f7;
   line-height: 100%;
 }
 section .textarea-wrapper {
@@ -129,39 +225,17 @@ section .textarea-wrapper {
   flex-direction: column;
   gap: 12px;
 }
+section .textarea-wrapper .error-message {
+  color: red;
+  margin-top: -1.2rem;
+  font-size: 17px;
+  transition: opacity 0.3s ease;
+}
 section .textarea-wrapper .hint {
-  font-size: 14px;
+  font-size: 18px;
   color: #999;
   margin-bottom: 5px;
   display: none;
-}
-section .textarea-wrapper .text-input {
-  width: 100%;
-  padding: 15px 25px;
-  height: 200px;
-  margin: 20px 0;
-  padding: 20px;
-  border: none;
-  outline: none;
-  border-radius: 12px;
-  background-color: #2A2B37;
-  color: #fff;
-  font-size: 20px;
-  transition: background-color 0.3s ease;
-  resize: none;
-}
-section .textarea-wrapper .text-input::-moz-placeholder {
-  color: #EFE4EF;
-  font-size: 20px;
-}
-section .textarea-wrapper .text-input::placeholder {
-  color: #EFE4EF;
-  font-size: 20px;
-}
-@media (max-width: 450px) {
-  section .textarea-wrapper .text-input {
-    height: 180px;
-  }
 }
 section .controllers {
   margin-top: 8px;
@@ -169,6 +243,27 @@ section .controllers {
 section .controllers .controls {
   gap: 12px;
   padding: 4px;
+}
+section .controllers .char-limit {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  position: relative;
+}
+section .controllers .char-limit .limit-input {
+  position: absolute;
+  top: -10%;
+  left: 110%;
+  transform: translateY(-50%);
+  width: 68px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid #2A2B37;
+  padding: 2px 8px;
+  color: #C27CF8;
+  border-radius: 8px;
+  display: none;
 }
 section .progress-container {
   padding: 20px 0 50px 0;
@@ -197,18 +292,17 @@ section .progress-container .progress-row .progress .progress-bar {
   width: 100%;
   height: 12px;
   border-radius: 999px;
-  background-color: #2A2B37;
   transition: width 0.3s ease;
   position: relative;
 }
 section .progress-container .progress-row .progress .progress-bar .progress-width {
   position: absolute;
-  background: #C27CF8;
   border-radius: 30px;
   height: 100%;
   top: 0;
   left: 0;
   z-index: 10;
+  transition: width 0.3s ease;
 }
 section .progress-container .progress-row .progress .progress-text {
   display: flex;
@@ -218,36 +312,13 @@ section .progress-container .progress-row .progress .progress-text {
 section .progress-container .see-more-progress {
   background: transparent;
   margin-top: 1.8rem;
-  color: #fff;
   border: none;
   font-size: 1rem;
-  color: #EFE4EF;
   cursor: pointer;
 }
 section .progress-container .see-more-progress span {
   display: inline-block;
   transform: rotate(-90deg);
-  color: #EFE4EF;
-}
-
-.header {
-  margin-top: 20px;
-  height: 44px;
-}
-.header .logo img {
-  height: 30px;
-  width: 180px;
-}
-.header .theme {
-  width: clamp(22px, 10vw + 10px, 44px);
-  height: clamp(22px, 10vw + 10px, 44px);
-  background: #2A2B37;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.header .theme .theme-toggler {
-  width: 18px;
-  height: 18px;
 }
 
 .custom-checkbox {
