@@ -41,6 +41,19 @@ body.light-theme .see-more-progress span {
   color: #444;
 }
 
+body.light-theme .theme {
+  width: 44px;
+  height: 44px;
+  background: rgb(242, 242, 247);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+body.light-theme .theme .theme-toggler {
+  width: 18px;
+  height: 18px;
+}
+
 body.dark-theme .text-input {
   background: #2A2B37;
   color: whitesmoke;
@@ -251,20 +264,6 @@ section .controllers .char-limit {
   gap: 8px;
   position: relative;
 }
-section .controllers .char-limit .limit-input {
-  position: absolute;
-  top: -10%;
-  left: 110%;
-  transform: translateY(-50%);
-  width: 68px;
-  height: 28px;
-  background: transparent;
-  border: 1px solid #2A2B37;
-  padding: 2px 8px;
-  color: #C27CF8;
-  border-radius: 8px;
-  display: none;
-}
 section .progress-container {
   padding: 20px 0 50px 0;
 }
@@ -374,4 +373,16 @@ section .progress-container .see-more-progress span {
   border: solid white;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+}
+
+.limit-input {
+  background: transparent;
+  border: 1px solid #2A2B37;
+  padding: 2px 8px;
+  color: #C27CF8;
+  border-radius: 8px;
+}
+
+#set-limit-checkbox .limit-input {
+  display: block !important;
 }/*# sourceMappingURL=style.css.map */

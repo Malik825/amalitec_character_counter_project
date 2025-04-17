@@ -43,6 +43,21 @@ body.light-theme {
         }
     }
 }
+body.light-theme{
+    .theme {
+        width: 44px;
+        height: 44px;
+        background: rgb(242, 242, 247);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        .theme-toggler {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
 
 body.dark-theme {
     .text-input {
@@ -288,20 +303,20 @@ section {
             gap: 8px;
             position: relative;
 
-            .limit-input {
-                position: absolute;
-                top: -10%;
-                left: 110%;
-                transform: translateY(-50%);
-                width: 68px;
-                height: 28px;
-                background: transparent;
-                border: 1px solid #2A2B37;
-                padding: 2px 8px;
-                color: #C27CF8;
-                border-radius: 8px;
-                display: none;
-            }
+            // .limit-input {
+            //     position: absolute;
+            //     top: -10%;
+            //     left: 110%;
+            //     transform: translateY(-50%);
+            //     width: 68px;
+            //     height: 28px;
+            //     background: transparent;
+            //     border: 1px solid #2A2B37;
+            //     padding: 2px 8px;
+            //     color: #C27CF8;
+            //     border-radius: 8px;
+            //     display: none;
+            // }
         }
     }
 
@@ -426,4 +441,21 @@ section {
     border: solid white;
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
+}
+.limit-input{
+    // position: absolute;
+        // top: -10%;
+        // left: 110%;
+        // transform: translateY(-50%);
+        // width: 68px;
+        // height: 28px;
+        background: transparent;
+        border: 1px solid #2A2B37;
+        padding: 2px 8px;
+        color: #C27CF8;
+        border-radius: 8px;
+    
+}
+#set-limit-checkbox .limit-input{
+    display:block !important;
 }
