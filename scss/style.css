@@ -41,6 +41,19 @@ body.light-theme .see-more-progress span {
   color: #444;
 }
 
+body.light-theme .theme {
+  width: 44px;
+  height: 44px;
+  background: rgb(242, 242, 247);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+body.light-theme .theme .theme-toggler {
+  width: 18px;
+  height: 18px;
+}
+
 body.dark-theme .text-input {
   background: #2A2B37;
   color: whitesmoke;
@@ -371,6 +384,7 @@ section .progress-container .see-more-progress span {
   transform: rotate(45deg);
 }
 
+<<<<<<< HEAD
 /* Add this to your CSS file */
 /* Add this to your CSS file */
 .limit-input {
@@ -421,4 +435,16 @@ section .progress-container .see-more-progress span {
   font-size: 14px;
   margin-top: 5px;
   transition: opacity 0.3s ease;
+=======
+.limit-input {
+  background: transparent;
+  border: 1px solid #2A2B37;
+  padding: 2px 8px;
+  color: #C27CF8;
+  border-radius: 8px;
+}
+
+#set-limit-checkbox .limit-input {
+  display: block !important;
+>>>>>>> f9b2bc6f0df8b79e5598a51761bc25f0be18a0f5
 }/*# sourceMappingURL=style.css.map */
