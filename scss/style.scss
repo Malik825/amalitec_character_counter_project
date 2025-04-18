@@ -76,7 +76,15 @@ body.light-theme{
                 }
             }
     }
+.theme{
+    background: rgb(242, 242, 247);
+    color: #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
+  
+}
 
 }
 body.dark-theme{
@@ -259,10 +267,12 @@ section {
         gap: 12px;
 
         .error-message {
-            color: red;
+            color: #fe8159;
             margin-top: -1.2rem;
             font-size: 17px;
             transition: opacity 0.3s ease;
+            display:flex;
+            align-items:center;
         }
 
         .hint {
@@ -288,20 +298,7 @@ section {
             gap: 8px;
             position: relative;
 
-            .limit-input {
-                position: absolute;
-                top: -10%;
-                left: 110%;
-                transform: translateY(-50%);
-                width: 68px;
-                height: 28px;
-                background: transparent;
-                border: 1px solid #2A2B37;
-                padding: 2px 8px;
-                color: #C27CF8;
-                border-radius: 8px;
-                display: none;
-            }
+          
         }
     }
 
@@ -427,3 +424,53 @@ section {
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
 }
+/* Add this to your CSS file */
+/* Add this to your CSS file */
+.limit-input {
+    display: none;
+    margin-left: 10px;
+    margin-top:-10px;
+    padding: 5px 8px;
+    width: 60px;
+    border: 1px solid #d88d8d;
+    border-radius: 4px;
+    background-color:transparent;
+    color: #d8d8d8;
+    transition: all 0.3s ease;
+}
+
+.limit-input:focus {
+    outline: none;
+    // border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.char-limit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.char-limit label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Adjust the check-input styling if needed */
+.check-input {
+    margin-left: 10px;
+    display: none; /* Hide by default */
+    padding: 5px 8px; 
+    border: 1px solid #ddd;
+    color:#333;
+}
+.error-border {
+    border: 2px solid #fe8159 !important;
+  }
+.error-message {
+    color: #fe8159;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: opacity 0.3s ease;
+}  
