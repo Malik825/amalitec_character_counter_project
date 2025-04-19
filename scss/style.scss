@@ -473,3 +473,90 @@ section {
     margin-top: 5px;
     transition: opacity 0.3s ease;
 } 
+/* Add these to your CSS file */
+
+/* Keyframe animations */
+@keyframes pulseError {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+  }
+  
+  @keyframes pulseWarning {
+    0% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 165, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0); }
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  /* Enhanced progress bar animation */
+  .progress-width {
+    transition: width 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+  }
+  
+  /* Counter animations */
+  .counter-display {
+    transition: all 0.5s ease;
+    display: inline-block;
+  }
+  
+  /* Message animations */
+  .message-container {
+    transition: height 0.3s ease;
+  }
+  
+  .warning-message, .error-message {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  /* Result cards hover animation */
+  .result {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .result:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  /* Theme toggle animation */
+  .theme {
+    transition: all 0.3s ease;
+  }
+  
+  .theme:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Text input focus animation */
+  .text-input:focus {
+    animation: pulseFocus 0.5s ease;
+  }
+  
+  @keyframes pulseFocus {
+    0% { box-shadow: 0 0 0 0 rgba(194, 124, 248, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(194, 124, 248, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(194, 124, 248, 0); }
+  }
+  
+  /* See more button animation */
+  .see-more-progress {
+    transition: all 0.3s ease;
+  }
+  
+  .see-more-progress:hover {
+    transform: translateY(-2px);
+    color: #C27CF8 !important;
+  }
+  
+  .see-more-progress span {
+    transition: transform 0.3s ease;
+  }
+  
+  .see-more-progress:hover span {
+    transform: rotate(-90deg) translateX(3px);
+  }
