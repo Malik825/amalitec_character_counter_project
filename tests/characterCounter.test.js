@@ -8,6 +8,8 @@ import {
   animateCounter,
   animateColorChange,
   animateMessage,
+  updateThemeIcon,
+  toggleTheme
 } from "../js/functions.js";
 
 /**
@@ -269,4 +271,53 @@ describe("Text Analysis Functions", () => {
       });
     });
   });
+  describe("Theme Functionality", () => {
+    let mockLocalStorage;
+    let originalBodyClass;
+    let mockThemeIcon;
+  
+    beforeEach(() => {
+      // Store original body class
+      originalBodyClass = document.body.className;
+      
+      // Mock localStorage
+      mockLocalStorage = {};
+      global.localStorage = {
+        getItem: jest.fn((key) => mockLocalStorage[key]),
+        setItem: jest.fn((key, value) => { mockLocalStorage[key] = value; })
+      };
+  
+      // Mock theme icon
+      mockThemeIcon = {
+        src: '',
+        style: {
+          transform: '',
+          transition: ''
+        },
+        updateThemeIcon: updateThemeIcon // Attach the function to the mock
+      };
+    });
+  
+    afterEach(() => {
+      // Restore original body class
+      document.body.className = originalBodyClass;
+      jest.clearAllMocks();
+    });
+  
+  
+  
+    describe("updateThemeIcon", () => {
+      test("sets moon icon for light theme", () => {
+        updateThemeIcon.call(mockThemeIcon, "light-theme");
+        expect(mockThemeIcon.src).toBe("./assets/images/icon-moon.svg");
+      });
+  
+      test("sets sun icon for dark theme", () => {
+        updateThemeIcon.call(mockThemeIcon, "dark-theme");
+        expect(mockThemeIcon.src).toBe("./assets/images/icon-sun.svg");
+      });
+    });
+  
+    
 });
+})

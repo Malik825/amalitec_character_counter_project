@@ -114,3 +114,22 @@ export function animateMessage(element, show) {
     }, 300);
   }
 }
+export function toggleTheme(currentTheme) {
+  this.style.transform = "rotate(180deg)";
+  this.style.transition = "transform 0.5s ease";
+
+  setTimeout(() => {
+    const newTheme = currentTheme === "light-theme" ? "dark-theme" : "light-theme";
+    document.body.className = newTheme;
+    localStorage.setItem("theme", newTheme);
+    this.updateThemeIcon(newTheme);
+
+    this.style.transform = "rotate(0deg)";
+  }, 250);
+}
+
+export function updateThemeIcon(currentTheme) {
+  this.src = currentTheme === "light-theme"
+    ? "./assets/images/icon-moon.svg"
+    : "./assets/images/icon-sun.svg";
+}
