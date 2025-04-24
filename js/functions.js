@@ -1,8 +1,9 @@
 // Counting functions
-export function countCharacters(text, excludeSpaces) {
+export function countCharacters(text, excludeSpaces = false) {
+  if (text === null || text === undefined) return 0;
+  if (typeof text !== 'string') text = String(text);
   return excludeSpaces ? text.replace(/\s/g, "").length : text.length;
 }
-
 export function countWords(text) {
   return text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
 }
@@ -46,7 +47,7 @@ export function checkCharacterLimit(chars, limit) {
   if (limit === null) return { status: "ok", remaining: null };
   
   const remaining = limit - chars;
-  const warningThreshold = Math.floor(limit * 0.1);
+  const warningThreshold = Math.floor(limit * 0.05);
 
   if (chars >= limit) {
     return {
@@ -62,18 +63,18 @@ export function checkCharacterLimit(chars, limit) {
 
 // Animation helpers
 export function animateCounter(element, oldValue, newValue) {
+  // Set content immediately
+  element.textContent = newValue.toString();
+  
   if (oldValue !== newValue) {
     element.style.transform = "translateY(-5px)";
     element.style.opacity = "0.5";
     element.style.transition = "all 0.3s ease";
 
     setTimeout(() => {
-      element.textContent = newValue;
       element.style.transform = "translateY(0)";
       element.style.opacity = "1";
     }, 150);
-  } else {
-    element.textContent = newValue;
   }
 }
 
