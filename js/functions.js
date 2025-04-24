@@ -9,9 +9,21 @@ export function countWords(text) {
 }
 
 export function countSentences(text) {
-  return text.trim() === ""
-    ? 0
-    : text.split(/[.?!]/).filter((s) => s.trim().length > 0).length;
+  if (!text || typeof text !== 'string') return 0;
+  
+  const trimmedText = text.trim();
+  if (trimmedText === '') return 0;
+
+  // Improved regex to:
+  // 1. Handle multiple punctuation marks (... ?!) as single delimiter
+  // 2. Ignore common abbreviations (Dr., Mr., etc.)
+  const sentenceDelimiters = /(?<!\b(?:Dr|Mr|Mrs|Ms|Prof|Jr|Sr|Rev|St))[.?!]+/g;
+  
+  const sentences = trimmedText
+    .split(sentenceDelimiters)
+    .filter(sentence => sentence.trim().length > 0);
+
+  return sentences.length || 1; // Return at least 1 if there's any text
 }
 
 // Text analysis functions

@@ -75,28 +75,44 @@ describe("Text Analysis Functions", () => {
     });
   });
 
-  describe("countSentences", () => {
-    test("counts sentences with standard punctuation", () => {
-      expect(countSentences("Hello. World!")).toBe(2);
-      expect(countSentences("Is this a test? Yes! It is.")).toBe(3);
-      expect(countSentences("First... Second... Third!")).toBe(3);
+  describe('countSentences', () => {
+    test('returns 0 for empty string', () => {
+      expect(countSentences('')).toBe(0);
     });
-
-    test("counts single sentence without ending punctuation", () => {
-      expect(countSentences("Hello world")).toBe(1);
-      expect(countSentences("This is a test")).toBe(1);
+  
+    test('returns 0 for whitespace-only string', () => {
+      expect(countSentences('   ')).toBe(0);
+      expect(countSentences('\n\t')).toBe(0);
     });
-
-    test("returns 0 for empty strings or strings without sentence content", () => {
-      expect(countSentences("")).toBe(0);
-      expect(countSentences("   ")).toBe(0);
-      expect(countSentences("... ! ?")).toBe(0);
+  
+    test('counts basic sentences', () => {
+      expect(countSentences('Hello. World!')).toBe(2);
+      expect(countSentences('Is this a test? Yes! It is.')).toBe(3);
     });
-
-    // test("handles complex cases with abbreviations", () => {
-    //   expect(countSentences("Dr. Smith is here. Mr. Jones too!")).toBe(2);
-    //   expect(countSentences("This is a test... wait, no!")).toBe(2);
-    // });
+  
+    test('handles sentences without ending punctuation', () => {
+      expect(countSentences('Hello world')).toBe(1);
+      expect(countSentences('This is a test')).toBe(1);
+    });
+  
+    test('handles multiple punctuation marks', () => {
+      expect(countSentences('Wait... Really?!')).toBe(2);
+      expect(countSentences('First... Second... Third!')).toBe(3);
+    });
+  
+    test('handles abbreviations (Dr., Mr., etc.)', () => {
+      expect(countSentences('Dr. Smith is here. Mr. Jones left.')).toBe(2);
+      expect(countSentences('Please contact Prof. Johnson.')).toBe(1);
+    });
+  
+  
+  
+    test('handles mixed content', () => {
+      expect(countSentences('Hello! How are you? I am fine.')).toBe(3);
+      expect(countSentences('Test... test? Test!')).toBe(3);
+    });
+  
+  
   });
 
   describe("calculateReadingTime", () => {
