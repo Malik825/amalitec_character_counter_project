@@ -1,176 +1,316 @@
-document.addEventListener("DOMContentLoaded", (e) => {
-    const textInput = document.getElementById("text-input");
-    const charCountDisplay = document.getElementById("character-count");
-    const wordCountDisplay = document.getElementById("word-count");
-    const sentenceCountDisplay = document.getElementById("sentence-count");
-    const excludeSpacesCheckbox = document.getElementById("exclude-spaces");
-    const readingTimeDisplay = document.querySelector(".app-time span");
-    const letterDensityContainer = document.querySelector(".progress-row");
-    const themeToggleButton = document.querySelector(".theme");
-    const body = document.body;
-    const characterLimitInput = document.getElementById("character-limit");
-    const characterLimitCheckbox = document.querySelector(
-        ".char-limit input[type='checkbox']"
-    );
+import {
+  countCharacters,
+  countWords,
+  countSentences,
+  calculateReadingTime,
+  analyzeLetterFrequency,
+  checkCharacterLimit,
+  animateCounter,
+  animateColorChange,
+  animateMessage,
+} from "./functions.js";
 
-    const errorMessage = document.createElement("div");
-    errorMessage.classList.add("error-message");
-    errorMessage.style.color = "#fe8159";
-    errorMessage.style.display = "none";
-    errorMessage.style.opacity = 0; // Start hidden
+document.addEventListener("DOMContentLoaded", function () {
+  // DOM Elements
+  const textInput = document.getElementById("text-input");
+  const charCount = document.getElementById("character-count");
+  const wordCount = document.getElementById("word-count");
+  const sentenceCount = document.getElementById("sentence-count");
+  const excludeSpaces = document.getElementById("exclude-spaces");
+  const readingTime = document.querySelector(".app-time span");
+  const letterContainer = document.querySelector(".progress-row");
+  const themeButton = document.querySelector(".theme");
+  const limitInput = document.getElementById("character-limit");
+  const limitCheckbox = document.querySelector(
+    ".char-limit input[type='checkbox']"
+  );
+  const seeMoreBtn = document.querySelector(".see-more-progress");
+  const themeIcon = document.getElementById("theme-icon");
+  const counterDisplay = document.createElement("div");
 
-    const errorIcon = document.createElement("img");
-    errorIcon.src = "./assets/images/icon-info.svg"; // Path to your error icon
-    errorIcon.alt = "Error Icon";
-    errorIcon.style.width = "20px";
-    errorIcon.style.marginRight = "8px";
+  // Create message elements
+  const warningMsg = document.createElement("div");
+  warningMsg.className = "warning-message";
+  warningMsg.style.display = "none";
 
-    errorMessage.appendChild(errorIcon);
-    textInput.parentElement.appendChild(errorMessage);
+  const errorMsg = document.createElement("div");
+  errorMsg.className = "error-message";
+  errorMsg.style.display = "none";
 
-    const logoImage = document.getElementById("logo-image");
-    const letterDensityData = [];
-    let showAll = false;
+  // Create container for messages
+  const messageContainer = document.createElement("div");
+  messageContainer.className = "message-container";
+  messageContainer.appendChild(warningMsg);
+  messageContainer.appendChild(errorMsg);
+  textInput.parentElement.appendChild(messageContainer);
 
-    const themeIcon = document.createElement("img");
-    themeIcon.alt = "Theme Toggle Icon";
-    themeToggleButton.appendChild(themeIcon); // Append the icon to the button
+  // Add counter display
+  counterDisplay.className = "counter-display";
+  textInput.parentElement.appendChild(counterDisplay);
 
-    const setTheme = (theme) => {
-        body.classList.remove("light-theme", "dark-theme");
-        body.classList.add(theme);
-        
-        logoImage.src =
-            theme === "dark-theme"
-                ? "./assets/images/logo-dark-theme.svg"
-                : "./assets/images/logo-light-theme.svg";
+  // Set initial theme
+  let currentTheme = localStorage.getItem("theme") || "light-theme";
+  document.body.className = currentTheme;
+  updateThemeIcon();
 
-        themeIcon.src =
-            theme === "dark-theme"
-                ? "./assets/images/icon-sun.svg" // Light icon for dark theme
-                : "./assets/images/icon-moon.svg"; // Dark icon for light theme
-        
-        localStorage.setItem("theme", theme);
-    };
+  // Animation variables
+  let lastCharCount = 0;
+  let lastWordCount = 0;
+  let lastSentenceCount = 0;
 
-    const currentTheme =
-        localStorage.getItem("theme") ||
-        (window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark-theme"
-                : "light-theme");
+  // Set up event listeners
+  function setupListeners() {
+    textInput.addEventListener("input", function () {
+      updateAll();
+      animateTextInput();
+    });
+    excludeSpaces.addEventListener("change", updateAll);
+    limitCheckbox.addEventListener("change", toggleLimit);
+    themeButton.addEventListener("click", toggleTheme);
+    seeMoreBtn.addEventListener("click", toggleLetters);
+    limitInput.addEventListener("input", updateAll);
+  }
 
-    setTheme(currentTheme);
+  // Update all counts and displays
+  function updateAll() {
+    const text = textInput.value;
+    const excludeSpacesChecked = excludeSpaces.checked;
+    const limitEnabled = limitCheckbox.checked;
+    const limit = parseInt(limitInput.value) || 0;
 
-    const updateCounts = () => {
-        const text = textInput.value;
-        const countCharacters = (text) => {
-            return excludeSpacesCheckbox.checked
-                ? text.replace(/\s/g, "").length
-                : text.length;
-        };
-        const characterCount = countCharacters(text);
-        charCountDisplay.innerText = characterCount;
+    // Update character count with animation
+    let chars = countCharacters(text, excludeSpacesChecked);
+    animateCounter(charCount, lastCharCount, chars);
+    lastCharCount = chars;
 
-        const limit = parseInt(characterLimitInput.value) || Infinity;
-        if (characterCount > limit) {
-            textInput.value = text.substring(0, limit);
-            charCountDisplay.innerText = limit;
-            errorMessage.innerHTML = `<img src="./assets/images/icon-info.svg" alt="Error Icon" style="width: 20px; margin-right: 8px;"> Character limit of ${limit} exceeded!`;
-            errorMessage.style.display = "flex";
-            errorMessage.style.opacity = 1; // Fade in effect
-            errorMessage.classList.add("fade-in"); // Add animation class
-        } else {
-            errorMessage.style.opacity = 0; // Fade out effect
-            setTimeout(() => {
-                errorMessage.style.display = "none"; // Hide after fade out
-            }, 300); // Match duration of the CSS transition
-        }
+    // Update word count with animation
+    const words = countWords(text);
+    animateCounter(wordCount, lastWordCount, words);
+    lastWordCount = words;
 
-        const countWords = (text) => {
-            return text.trim().split(/\s+/).filter(Boolean);
-        };
-        const wordsArray = countWords(text);
-        wordCountDisplay.innerText = wordsArray.length;
+    // Update sentence count with animation
+    const sentences = countSentences(text);
+    animateCounter(sentenceCount, lastSentenceCount, sentences);
+    lastSentenceCount = sentences;
 
-        const countSentences = (text) => {
-            return text.trim().split(/[.?!]/).filter(Boolean).length;
-        };
-        sentenceCountDisplay.innerText = countSentences(text);
+    // Update reading time
+    readingTime.textContent = calculateReadingTime(words);
 
-        const readingTime = Math.ceil(wordsArray.length / 200);
-        readingTimeDisplay.innerText =
-            readingTime > 0 ? `${readingTime} minute(s)` : "Less than 1 minute";
-    };
+    // Update character counter display
+    updateCounterDisplay(chars, limitEnabled ? limit : null);
 
-    const updateLetterDensity = () => {
-        let text = textInput.value.toLowerCase().replace(/[^a-z]/g, "");
-        const countLetters = {};
-        for (let letter of text) {
-            countLetters[letter] = (countLetters[letter] || 0) + 1;
-        }
-        letterDensityData.length = 0;
-        letterDensityContainer.innerHTML = "";
+    // Check character limit if enabled
+    if (limitEnabled && limit > 0) {
+      handleLimitCheck(chars, limit);
+    } else {
+      resetLimitStyles();
+    }
 
-        for (let [letter, count] of Object.entries(countLetters)) {
-            letterDensityData.push({
-                letter,
-                count,
-                percentage: ((count / text.length) * 100).toFixed(2),
-            });
-        }
+    // Update letter frequency display
+    updateLetters();
+  }
 
-        displayLetterDensity();
-    };
+  // Handle limit checking and UI updates
+  function handleLimitCheck(chars, limit) {
+    const result = checkCharacterLimit(chars, limit);
 
-    const displayLetterDensity = () => {
-        letterDensityContainer.innerHTML = "";
+    if (result.status === "limit-reached" || result.status === "limit-exceeded") {
+      textInput.classList.add("error-border");
+      
+      const message =
+        result.status === "limit-reached"
+          ? `Character limit of ${limit} reached!`
+          : `Character limit of ${limit} exceeded by ${result.exceededBy}`;
 
-        const lettersToShow = showAll
-            ? letterDensityData
-            : letterDensityData.slice(0, 5);
-        lettersToShow.forEach(({ letter, count, percentage }) => {
-            const progressRow = document.createElement("div");
-            progressRow.classList.add("row", "progress", "align");
-            progressRow.innerHTML = `
-                <span>${letter.toUpperCase()}</span>
-                <div class="progress-bar">
-                    <div class="progress-width" style="width: ${percentage}%"></div>
-                </div>
-                <div class="progress-text">${count} (${percentage}%)</div>
-            `;
-            letterDensityContainer.appendChild(progressRow);
-        });
+      errorMsg.textContent = message;
+      animateMessage(errorMsg, true);
+      warningMsg.style.display = "none";
+      textInput.classList.remove("warning-border");
 
-        const showMoreButton = document.querySelector(".see-more-progress");
-        showMoreButton.style.display =
-            letterDensityData.length > 5 ? "block" : "none";
-        showMoreButton.innerText = showAll ? "Show Less" : "See More";
-    };
+      textInput.style.animation = "pulseError 0.5s 2";
+      setTimeout(() => {
+        textInput.style.animation = "";
+      }, 1000);
 
-    textInput.addEventListener("keyup", (e) => {
-        updateCounts();
-        updateLetterDensity();
+      // Truncate text if exceeded
+      if (result.status === "limit-exceeded") {
+        truncateText(limit);
+      }
+    } else if (result.status === "warning") {
+      textInput.classList.add("warning-border");
+      warningMsg.textContent = `Warning: Only ${result.remaining} characters remaining`;
+      animateMessage(warningMsg, true);
+      errorMsg.style.display = "none";
+      textInput.classList.remove("error-border");
+
+      textInput.style.animation = "pulseWarning 0.5s 1";
+      setTimeout(() => {
+        textInput.style.animation = "";
+      }, 500);
+    } else {
+      resetLimitStyles();
+    }
+  }
+
+  // Truncate text to the limit
+  function truncateText(limit) {
+    if (excludeSpaces.checked) {
+      let truncated = "";
+      let count = 0;
+      for (let char of textInput.value) {
+        if (char !== " ") count++;
+        if (count > limit) break;
+        truncated += char;
+      }
+      textInput.value = truncated;
+    } else {
+      textInput.value = textInput.value.substring(0, limit);
+    }
+    updateAll();
+  }
+
+  // Animate the text input on typing
+  function animateTextInput() {
+    textInput.style.transform = "scale(1.01)";
+    textInput.style.transition = "transform 0.1s ease";
+    setTimeout(() => {
+      textInput.style.transform = "scale(1)";
+    }, 100);
+  }
+
+  // Update character counter display with animation
+  function updateCounterDisplay(currentChars, limit) {
+    if (limit) {
+      counterDisplay.textContent = `${currentChars}/${limit}`;
+      counterDisplay.style.display = "block";
+
+      // Animate color change based on usage
+      const usagePercent = (currentChars / limit) * 100;
+      if (usagePercent >= 90) {
+        animateColorChange(counterDisplay, "red");
+      } else if (usagePercent >= 75) {
+        animateColorChange(counterDisplay, "orange");
+      } else {
+        animateColorChange(counterDisplay, "green");
+      }
+    } else {
+      counterDisplay.textContent = `${currentChars}`;
+      animateColorChange(counterDisplay, "inherit");
+    }
+  }
+
+  // Reset all limit-related styles
+  function resetLimitStyles() {
+    if (
+      textInput.classList.contains("error-border") ||
+      textInput.classList.contains("warning-border")
+    ) {
+      textInput.classList.remove("error-border", "warning-border");
+      animateMessage(warningMsg, false);
+      animateMessage(errorMsg, false);
+    }
+  }
+
+  // Letter frequency with animations
+  function updateLetters() {
+    const letters = analyzeLetterFrequency(textInput.value);
+    showLetters(letters);
+  }
+
+  function showLetters(letters) {
+    letterContainer.innerHTML = "";
+
+    const showAll = seeMoreBtn.textContent.includes("Less");
+    const toShow = showAll ? letters : letters.slice(0, 5);
+
+    toShow.forEach((letter, index) => {
+      const row = document.createElement("div");
+      row.className = "row progress align";
+      row.style.opacity = "0";
+      row.style.transform = "translateX(-20px)";
+      row.style.transition = `all 0.3s ease ${index * 0.1}s`;
+
+      row.innerHTML = `
+          <span>${letter.char.toUpperCase()}</span>
+          <div class="progress-bar">
+            <div class="progress-width" style="width: ${letter.percent}%"></div>
+          </div>
+          <div class="progress-text">${letter.count} (${letter.percent}%)</div>
+        `;
+
+      letterContainer.appendChild(row);
+
+      // Animate each row in
+      setTimeout(() => {
+        row.style.opacity = "1";
+        row.style.transform = "translateX(0)";
+      }, 10);
     });
 
-    characterLimitCheckbox.addEventListener("change", (e) => {
-        characterLimitInput.style.display = e.target.checked ? "block" : "none";
-        const hint = document.querySelector(".hint");
-        hint.style.display = e.target.checked ? "block" : "none";
-    });
+    seeMoreBtn.style.display = letters.length > 5 ? "block" : "none";
+  }
 
-    themeToggleButton.addEventListener("click", () => {
-        const newTheme = body.classList.contains("dark-theme")
-            ? "light-theme"
-            : "dark-theme";
-        setTheme(newTheme);
-    });
+  // Toggle character limit input with animation
+  function toggleLimit() {
+    if (limitCheckbox.checked) {
+      limitInput.style.display = "block";
+      limitInput.style.opacity = "0";
+      limitInput.style.transform = "translateY(-10px)";
+      limitInput.style.transition = "all 0.3s ease";
 
-    const seeMoreButton = document.querySelector(".see-more-progress");
-    seeMoreButton.addEventListener("click", () => {
-        showAll = !showAll;
-        displayLetterDensity();
-    });
+      setTimeout(() => {
+        limitInput.style.opacity = "1";
+        limitInput.style.transform = "translateY(0)";
+      }, 10);
+    } else {
+      limitInput.style.opacity = "0";
+      limitInput.style.transform = "translateY(-10px)";
+      setTimeout(() => {
+        limitInput.style.display = "none";
+      }, 300);
+    }
+    updateAll();
+  }
 
-    updateLetterDensity();
+  // Theme toggle with animation
+  function toggleTheme() {
+    themeIcon.style.transform = "rotate(180deg)";
+    themeIcon.style.transition = "transform 0.5s ease";
+
+    setTimeout(() => {
+      currentTheme =
+        currentTheme === "light-theme" ? "dark-theme" : "light-theme";
+      document.body.className = currentTheme;
+      localStorage.setItem("theme", currentTheme);
+      updateThemeIcon();
+
+      themeIcon.style.transform = "rotate(0deg)";
+    }, 250);
+  }
+
+  function updateThemeIcon() {
+    themeIcon.src =
+      currentTheme === "light-theme"
+        ? "./assets/images/icon-moon.svg"
+        : "./assets/images/icon-sun.svg";
+  }
+
+  // Toggle letter density view with animation
+  function toggleLetters() {
+    if (seeMoreBtn.textContent.includes("More")) {
+      seeMoreBtn.textContent = "Show Less";
+      seeMoreBtn.style.transform = "scale(1.1)";
+      seeMoreBtn.style.transition = "transform 0.3s ease";
+      setTimeout(() => {
+        seeMoreBtn.style.transform = "scale(1)";
+      }, 300);
+    } else {
+      seeMoreBtn.textContent = "See More";
+    }
+    updateLetters();
+  }
+
+  // Initialize everything
+  setupListeners();
+  updateAll();
 });

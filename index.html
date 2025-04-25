@@ -57,7 +57,7 @@
               class="text-input"
               placeholder="Start typing here... (or paste your text)"
             ></textarea>
-            <span class="hint" role="alert">Hint text</span>
+            <p id="error-message" class="message"></p>
           </div>
 
           <div class="row align jbtn controllers">
@@ -71,16 +71,19 @@
               </div>
               <div class="control char-limit">
                 <label class="custom-checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="set-character-limit" />
                   <span class="checkmark"></span>
                   Set Character Limit
-                  <input
-                    type="number"
-                    class="limit-input"
-                    id="character-limit"
-                    placeholder="0"
-                  />
                 </label>
+
+                <input
+                  type="number"
+                  class="limit-input"
+                  id="character-limit"
+                  placeholder="0"
+                  min="1"
+                  style="display: none"
+                />
               </div>
             </div>
             <div class="app-time">
@@ -144,6 +147,6 @@
         </div>
       </section>
     </main>
-    <script src="./js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
